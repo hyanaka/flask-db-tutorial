@@ -1,9 +1,28 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Index</title>
+        <title>index</title>
     </head>
     <body>
         <h1>Index page</h1>
+        <form action="/add" method="post">
+            <input type="text" name="content" />
+            <input type="submit" value="Add" />
+        </form>
+        <div>
+            <button id="reloadbtn">Reload</button>
+            <span id="data"></span>
+        </div>
+        <script>
+            const b = document.getElementById('reloadbtn');
+            const s = document.getElementById('data');
+            const fetchcontents = async () => {
+                const contents = await fetch('http://localhost:5000/api/contents', {method: 'POST'});
+                s.textContent = contents;
+            };
+            b.onclick = () => {
+                fetchcontents();
+            };
+        </script>
     </body>
 </html>
