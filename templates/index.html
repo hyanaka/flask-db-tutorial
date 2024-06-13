@@ -6,27 +6,38 @@
     <body>
         <h1>Index page</h1>
         <div>
+            <input type="text" name="id" id="id_input" />
             <input id="detail_input" type="text" name="detail" />
-            <input type="submit" value="Add" onclick="addcontents()" />
-        </div>
-        <div>
-            <button id="reloadbtn">Reload</button>
+            <input type="submit" value="GetAll" onclick="get_contents()" />
+            <input type="submit" value="Get" onclick="get_content()" />
+            <input type="submit" value="Post" onclick="add_content()" />
+            <input type="submit" value="Put" onclick="put_content()" />
+            <input type="submit" value="Delete" onclick="delete_content()" />
             <span id="data"></span>
         </div>
         <script>
             const b = document.getElementById('reloadbtn');
             const s = document.getElementById('data');
-            const i = document.getElementById('detail_input');
-            const fetchcontents = async () => {
+            const i = document.getElementById('id_input');
+            const d = document.getElementById('detail_input');
+            const get_contents = async () => {
                 let res = await fetch('http://localhost:5000/api/contents', {method: 'GET'});
                 let contents = await res.json();
                 s.textContent = JSON.stringify(contents);
             };
-            const addcontents = async () => {
-                let res = await fetch('http://localhost:5000/api/add_content', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({detail: i.value})})
-            }
-            b.onclick = () => {
-                fetchcontents();
+            const get_content = async () => {
+                let res = await fetch('http://localhost:5000/api/contents/' + i.value, {method: 'GET'});
+                let content = await res.json();
+                s.textContent = JSON.stringify(content);
+            };
+            const add_content = async () => {
+                await fetch('http://localhost:5000/api/contents', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({detail: d.value})})
+            };
+            const put_content = async () => {
+                await fetch('http://localhost:5000/api/contents/' + i.value, {method: 'PUT', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({detail: d.value})})
+            };
+            const delete_content = async () => {
+                await fetch('http://localhost:5000/api/contents/' + i.value, {method: 'DELETE'})
             };
         </script>
     </body>
