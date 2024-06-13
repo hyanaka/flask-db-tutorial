@@ -1,5 +1,5 @@
-from flask import Blueprint
-from db import Content
+from flask import Blueprint, request
+from db import Content, db
 from json import dumps
 
 api = Blueprint('api', __name__, url_prefix='/api')
@@ -13,3 +13,13 @@ def get_contents():
 def get_content(id):
     content = Content.query.filter_by(id=id).first()
     return dumps({'id': content.id, 'detail': content.detail})
+
+@api.route('/add_content', methods=['POST'])
+def add():
+    json = request.get_json()
+    entry = Content()
+    entry.detail = json['detail']
+    db.session.add(entry)
+    db.session.commit()
+    db.session.close()
+    return f'Successfully added a content'

@@ -5,10 +5,10 @@
     </head>
     <body>
         <h1>Index page</h1>
-        <form action="/add" method="post">
-            <input type="text" name="content" />
-            <input type="submit" value="Add" />
-        </form>
+        <div>
+            <input id="detail_input" type="text" name="detail" />
+            <input type="submit" value="Add" onclick="addcontents()" />
+        </div>
         <div>
             <button id="reloadbtn">Reload</button>
             <span id="data"></span>
@@ -16,11 +16,15 @@
         <script>
             const b = document.getElementById('reloadbtn');
             const s = document.getElementById('data');
+            const i = document.getElementById('detail_input');
             const fetchcontents = async () => {
                 let res = await fetch('http://localhost:5000/api/contents', {method: 'GET'});
                 let contents = await res.json();
                 s.textContent = JSON.stringify(contents);
             };
+            const addcontents = async () => {
+                let res = await fetch('http://localhost:5000/api/add_content', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({detail: i.value})})
+            }
             b.onclick = () => {
                 fetchcontents();
             };

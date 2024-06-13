@@ -12,10 +12,6 @@ def initDB(app: Flask):
 class Content(db.Model):
     id = Column(Integer, primary_key=True)
     detail = Column(String(64))
-    def __init__(self, id, detail):
-        self.id = id
-        self.detail = detail
-    
     def __repr__(self):
         return f'<Content {self.id}>'
     
