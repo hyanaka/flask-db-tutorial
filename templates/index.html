@@ -17,8 +17,9 @@
             const b = document.getElementById('reloadbtn');
             const s = document.getElementById('data');
             const fetchcontents = async () => {
-                const contents = await fetch('http://localhost:5000/api/contents', {method: 'POST'});
-                s.textContent = contents;
+                let res = await fetch('http://localhost:5000/api/contents', {method: 'GET'});
+                let contents = await res.json();
+                s.textContent = JSON.stringify(contents);
             };
             b.onclick = () => {
                 fetchcontents();
